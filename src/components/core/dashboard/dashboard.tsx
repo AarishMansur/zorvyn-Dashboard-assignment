@@ -18,26 +18,19 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { 
-  Idea01Icon, 
-  ChartHistogramIcon, 
+import {
+  Idea01Icon,
+  ChartHistogramIcon,
   AlertCircleIcon,
   MoneyReceive01Icon,
   ShoppingBag01Icon
 } from "@hugeicons/core-free-icons"
+import { useFinanceStore } from "@/store/useFinanceStore"
 
-const mockTransactions = [
-  { id: "1", date: "2024-03-28", description: "Monthly Salary", category: "Income", amount: 5000, type: "income" as const },
-  { id: "2", date: "2024-03-27", description: "Whole Foods Market", category: "Food", amount: 156.40, type: "expense" as const },
-  { id: "3", date: "2024-03-26", description: "Monthly Rent", category: "Housing", amount: 1200, type: "expense" as const },
-  { id: "4", date: "2024-03-25", description: "Uber Ride", category: "Transport", amount: 24.50, type: "expense" as const },
-  { id: "5", date: "2024-03-24", description: "Apple Music Subscription", category: "Entertainment", amount: 9.99, type: "expense" as const },
-  { id: "6", date: "2024-03-23", description: "Starbucks Coffee", category: "Food", amount: 4.75, type: "expense" as const },
-  { id: "7", date: "2024-03-22", description: "Utility Bill", category: "Utilities", amount: 145.20, type: "expense" as const },
-  { id: "8", date: "2024-03-21", description: "Amazon Purchase", category: "Other", amount: 89.99, type: "expense" as const },
-]
+
 
 export default function Dashboard() {
+  const transactions = useFinanceStore((s) => s.transactions)
   return (
     <SidebarProvider
       style={
@@ -53,10 +46,10 @@ export default function Dashboard() {
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              {/* Summary Cards */}
+
               <SectionCards />
 
-              {/* Main Visualizations Grid */}
+
               <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-12 lg:px-6">
                 <div className="lg:col-span-8">
                   <ChartAreaInteractive />
@@ -66,7 +59,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Insights and Recommendations Section */}
+
               <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-3 lg:px-6">
                 <Card className="bg-primary/5 border-primary/20">
                   <CardHeader className="flex flex-row items-center gap-2 pb-2">
@@ -123,13 +116,13 @@ export default function Dashboard() {
                 </Card>
               </div>
 
-              {/* Transactions Section */}
+
               <div className="py-2">
                 <div className="px-4 pb-4 lg:px-6">
                   <h2 className="text-lg font-semibold tracking-tight">Recent Transactions</h2>
                   <p className="text-sm text-muted-foreground">Manage and track your latest financial activities.</p>
                 </div>
-                <DataTable data={mockTransactions} />
+                <DataTable data={transactions} />
               </div>
             </div>
           </div>

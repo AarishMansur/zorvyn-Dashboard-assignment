@@ -1,5 +1,6 @@
 "use client"
-
+import { useState } from "react"
+import { useFinanceStore } from "@/store/useFinanceStore"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -25,13 +26,36 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Add01Icon, Calendar01Icon, Dollar01Icon, Tag01Icon } from "@hugeicons/core-free-icons"
 
 export function TransactionForm() {
+
+  const addTransaction = useFinanceStore((s) => s.addTransaction)
+  const [date, setdate] = useState(new Date().toISOString().split("T")[0])
+  const [category, setCategory] = useState("Food");
+  const [type, setType] = useState<"income" | "expense">("expense");
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+
+  const role = useFinanceStore((s) => s.role)
+  const handleSubmit = () => {
+    if (!amount) return;
+    addTransaction({
+      id: crypto.randomUUID(),
+      date,
+      description,
+      amount: Number(amount),
+      category: category as any,
+      type
+    })
+    setAmount("")
+  }
+
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="default" className="bg-primary text-primary-foreground shadow-sm">
+        {role === 'admin' && <Button variant="default" className="bg-primary text-primary-foreground shadow-sm">
           <HugeiconsIcon icon={Add01Icon} strokeWidth={2} />
           <span>Add Transaction</span>
-        </Button>
+        </Button>}
+
       </SheetTrigger>
       <SheetContent side="right" className="w-[400px] sm:w-[540px]">
         <SheetHeader>
@@ -46,16 +70,16 @@ export function TransactionForm() {
               <HugeiconsIcon icon={Calendar01Icon} strokeWidth={2} className="size-4" />
               Date
             </Label>
-            <Input id="date" type="date" className="w-full" defaultValue={new Date().toISOString().split('T')[0]} />
+            <Input id="date" type="date" className="w-full" value={date} onChange={(e) => setdate(e.target.value)} />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="description">Description</Label>
-            <Input id="description" placeholder="e.g. Grocery Store" />
+            <Input id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="e.g. Grocery Store" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
               <Label htmlFor="type">Type</Label>
-              <Select defaultValue="expense">
+              <Select value={type} onValueChange={(val) => setType(val as any)} defaultValue="expense">
                 <SelectTrigger id="type">
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
@@ -70,7 +94,7 @@ export function TransactionForm() {
                 <HugeiconsIcon icon={Tag01Icon} strokeWidth={2} className="size-4" />
                 Category
               </Label>
-              <Select defaultValue="food">
+              <Select value={category} onValueChange={(val) => setCategory(val)} defaultValue="food">
                 <SelectTrigger id="category">
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -90,12 +114,12 @@ export function TransactionForm() {
               <HugeiconsIcon icon={Dollar01Icon} strokeWidth={2} className="size-4" />
               Amount
             </Label>
-            <Input id="amount" type="number" step="0.01" placeholder="0.00" />
+            <Input id="amount" type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0.00" />
           </div>
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit" className="w-full">Save Transaction</Button>
+            <Button type="submit" onClick={handleSubmit} className="w-full">Save Transaction</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

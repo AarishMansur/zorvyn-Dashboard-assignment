@@ -1,6 +1,7 @@
 import type { Role } from "./user.types";
 
 export type TranstionType = 'income' | 'expense';
+export type FilterType = "all" | "income" | "expense";
 
 export type CategoryType =
   | "Salary"
@@ -10,18 +11,26 @@ export type CategoryType =
   | "Entertainment"
   | "Other";
 
+export interface Filters {
+  search: string;
+  type: FilterType;
+}
 
 export interface Transaction {
-    id:string,
-    date:string,
-    amount:number,
-    category:CategoryType,
-    type:TranstionType
+  id: string,
+  date: string,
+  description: string
+  amount: number,
+  category: CategoryType,
+  type: TranstionType
 }
 
 export interface FinanceState {
-    transactions: Transaction[]
-    role:Role,
-    setRole:(role:Role)=>void
-    addTransaction:(t:Transaction)=>void;
+  transactions: Transaction[]
+  filters: Filters
+  role: Role,
+  setRole: (role: Role) => void
+  addTransaction: (t: Transaction) => void;
+  setSearch: (search: string) => void;
+  setType: (type: FilterType) => void;
 }
