@@ -159,6 +159,9 @@ export function DataTable({
     },
   ], [role, deleteTransaction])
 
+  const filters = useFinanceStore((s) => s.filters)
+  const setCategory = useFinanceStore((s) => s.setCategory)
+
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({
@@ -166,6 +169,18 @@ export function DataTable({
     })
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
+
+  // Sync store filters with table column filters
+  React.useEffect(() => {
+    const tableFilters: ColumnFiltersState = []
+    if (filters.category !== "all") {
+      tableFilters.push({ id: "category", value: filters.category })
+    }
+    if (filters.search) {
+      tableFilters.push({ id: "description", value: filters.search })
+    }
+    setColumnFilters(tableFilters)
+  }, [filters.category, filters.search])
 
   const table = useReactTable({
     data,
@@ -199,22 +214,26 @@ export function DataTable({
             <Input
               placeholder="Search transactions..."
               className="pl-9"
-              value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
+              value={filters.search}
               onChange={(event) =>
-                table.getColumn("description")?.setFilterValue(event.target.value)
+                useFinanceStore.getState().setSearch(event.target.value)
               }
             />
           </div>
-          <Select>
+          <Select value={filters.category} onValueChange={setCategory}>
             <SelectTrigger className="w-[150px]">
               <HugeiconsIcon icon={FilterIcon} strokeWidth={2} className="mr-2 size-4" />
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Categories</SelectItem>
-              <SelectItem value="food">Food</SelectItem>
-              <SelectItem value="housing">Housing</SelectItem>
-              <SelectItem value="transport">Transport</SelectItem>
+              <SelectItem value="Food">Food</SelectItem>
+              <SelectItem value="Housing">Housing</SelectItem>
+              <SelectItem value="Transport">Transport</SelectItem>
+              <SelectItem value="Entertainment">Entertainment</SelectItem>
+              <SelectItem value="Salary">Salary</SelectItem>
+              <SelectItem value="Bills">Bills</SelectItem>
+              <SelectItem value="Other">Other</SelectItem>
             </SelectContent>
           </Select>
         </div>

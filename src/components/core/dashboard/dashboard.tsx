@@ -31,6 +31,33 @@ import { useFinanceStore } from "@/store/useFinanceStore"
 
 export default function Dashboard() {
   const transactions = useFinanceStore((s) => s.transactions)
+
+  const insights = React.useMemo(() => {
+    const expenses = transactions.filter(t => t.type === 'expense')
+    
+    // Find top spending category
+    const categoryTotals = expenses.reduce((acc, t) => {
+      acc[t.category] = (acc[t.category] || 0) + t.amount
+      return acc
+    }, {} as Record<string, number>)
+    
+    const topCategory = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1])[0] || ["None", 0]
+
+    // Monthly Trend (Income vs Expense)
+    const currentMonth = "2024-06"
+    const monthlyIncome = transactions
+      .filter(t => t.type === 'income' && t.date.startsWith(currentMonth))
+      .reduce((acc, t) => acc + t.amount, 0)
+    
+    const monthlyExpenses = transactions
+      .filter(t => t.type === 'expense' && t.date.startsWith(currentMonth))
+      .reduce((acc, t) => acc + t.amount, 0)
+
+    const isProfitable = monthlyIncome > monthlyExpenses
+
+    return { topCategory, monthlyIncome, monthlyExpenses, isProfitable }
+  }, [transactions])
+
   return (
     <SidebarProvider
       style={
@@ -72,26 +99,26 @@ export default function Dashboard() {
                         <HugeiconsIcon icon={ShoppingBag01Icon} strokeWidth={2} className="size-4 text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Housing</p>
-                        <p className="text-xs text-muted-foreground">$1,200.00 this month</p>
+                        <p className="text-sm font-medium">{insights.topCategory[0]}</p>
+                        <p className="text-xs text-muted-foreground">${Number(insights.topCategory[1]).toFixed(2)} total spent</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-emerald-500/5 border-emerald-500/20">
+                <Card className={`${insights.isProfitable ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-rose-500/5 border-rose-500/20'}`}>
                   <CardHeader className="flex flex-row items-center gap-2 pb-2">
-                    <HugeiconsIcon icon={ChartHistogramIcon} strokeWidth={2} className="size-5 text-emerald-500" />
+                    <HugeiconsIcon icon={ChartHistogramIcon} strokeWidth={2} className={`size-5 ${insights.isProfitable ? 'text-emerald-500' : 'text-rose-500'}`} />
                     <CardTitle className="text-sm font-semibold uppercase tracking-wider">Monthly Trend</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center gap-3">
-                      <div className="rounded-full bg-emerald-500/10 p-2 transition-colors">
-                        <HugeiconsIcon icon={MoneyReceive01Icon} strokeWidth={2} className="size-4 text-emerald-500" />
+                      <div className={`rounded-full p-2 ${insights.isProfitable ? 'bg-emerald-500/10' : 'bg-rose-500/10'}`}>
+                        <HugeiconsIcon icon={MoneyReceive01Icon} strokeWidth={2} className={`size-4 ${insights.isProfitable ? 'text-emerald-500' : 'text-rose-500'}`} />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Income Up 12%</p>
-                        <p className="text-xs text-muted-foreground">Compared to last month</p>
+                        <p className="text-sm font-medium">{insights.isProfitable ? "Surplus" : "Deficit"} Detected</p>
+                        <p className="text-xs text-muted-foreground">Income: ${insights.monthlyIncome.toFixed(0)} | Spent: ${insights.monthlyExpenses.toFixed(0)}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -108,8 +135,8 @@ export default function Dashboard() {
                         <HugeiconsIcon icon={AlertCircleIcon} strokeWidth={2} className="size-4 text-rose-500" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Food budget at 85%</p>
-                        <p className="text-xs text-muted-foreground">Slow down your spending!</p>
+                        <p className="text-sm font-medium">Budget Warning</p>
+                        <p className="text-xs text-muted-foreground">You spent ${insights.monthlyExpenses.toFixed(0)} this month.</p>
                       </div>
                     </div>
                   </CardContent>

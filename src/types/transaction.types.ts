@@ -9,11 +9,13 @@ export type CategoryType =
   | "Shopping"
   | "Bills"
   | "Entertainment"
+  | "Transport"
   | "Other";
 
 export interface Filters {
   search: string;
   type: FilterType;
+  category: string;
 }
 
 export interface Transaction {
@@ -35,4 +37,5 @@ export interface FinanceState {
   editTransaction: (t: Transaction) => void;
   setSearch: (search: string) => void;
   setType: (type: FilterType) => void;
+  setCategory: (category: string) => void;
 }

@@ -1,73 +1,64 @@
-# React + TypeScript + Vite
+# Zorvyn Finance Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean, interactive finance dashboard built to evaluate frontend development skills, component structuring, and state management.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 1. Dashboard Overview
+- **Dynamic Summary Cards**: Real-time calculation of Total Balance, Monthly Income, Monthly Expenses, and Savings Rate.
+- **Balance Trend**: Interactive Area Chart showing Income vs. Expenses over time (7d, 30d, 90d).
+- **Spending Breakdown**: Visual Pie Chart aggregating expenses by category.
+- **Smart Insights**: Automatically identifies Top Spending category and detects Monthly Surplus/Deficit.
 
-## React Compiler
+### 2. Transaction Management
+- **Full CRUD**: Add, Edit, and Delete transactions with ease.
+- **Advanced Filtering**: Filter by Category or Type (Income/Expense).
+- **Global Search**: Search through transaction descriptions instantly.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 3. Role-Based UI (RBAC)
+- **Viewer Mode**: Read-only access to the dashboard and transactions.
+- **Admin Mode**: Full access to Add, Edit, and Delete transactions.
+- **Toggle**: Easily switch between roles via the user profile in the sidebar.
 
-## Expanding the ESLint configuration
+### 4. Technical Excellence
+- **State Management**: Powered by **Zustand** with middleware for data persistence (`localStorage`).
+- **Styling**: Modern UI built with **Tailwind CSS**, featuring dark mode support and responsive layouts.
+- **Type Safety**: Fully typed with **TypeScript**.
+- **Charts**: Interactive visualizations using **Recharts**.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tech Stack
+- **Framework**: React 18 + Vite
+- **State**: Zustand
+- **Styling**: Tailwind CSS + Shadcn/UI
+- **Icons**: HugeIcons
+- **Charts**: Recharts
+- **Forms/Validation**: Zod + React Hook Form (where applicable)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📦 Setup & Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd zorvyn-assignment
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. **Install dependencies**:
+   ```bash
+   pnpm install
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3. **Run the development server**:
+   ```bash
+   pnpm run dev
+   ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+4. **Build for production**:
+   ```bash
+   pnpm run build
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📝 Approach & Implementation
+- **Component Modularity**: Components are decoupled and reusable (e.g., `TransactionForm` handles both create and update logic).
+- **Zustand Persistence**: Utilizes `persist` middleware to ensure user data remains across sessions.
+- **Responsive Design**: Uses Tailwind's container queries (`@container`) and responsive utilities to ensure a premium feel on all devices.
+- **Mock Data**: Pre-seeded with varied transactions for immediate visualization of charts and insights.
