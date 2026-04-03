@@ -31,6 +31,8 @@ export interface FinanceState {
   role: Role,
   setRole: (role: Role) => void
   addTransaction: (t: Transaction) => void;
+  deleteTransaction: (id: string) => void;
+  editTransaction: (t: Transaction) => void;
   setSearch: (search: string) => void;
   setType: (type: FilterType) => void;
 }

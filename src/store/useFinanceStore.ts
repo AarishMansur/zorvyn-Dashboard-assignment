@@ -18,6 +18,16 @@ export const useFinanceStore = create<FinanceState>()(
                 set((state) => ({
                     transactions: [...state.transactions, t],
                 })),
+            deleteTransaction: (id) =>
+                set((state) => ({
+                    transactions: state.transactions.filter((t) => t.id !== id),
+                })),
+            editTransaction: (t) =>
+                set((state) => ({
+                    transactions: state.transactions.map((trans) =>
+                        trans.id === t.id ? t : trans
+                    ),
+                })),
 
             setSearch: (search) =>
                 set((state) => ({
