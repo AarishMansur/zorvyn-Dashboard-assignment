@@ -17,49 +17,60 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart"
 
-const chartData = [
-  { category: "Food", amount: 1200, fill: "var(--color-food)" },
-  { category: "Housing", amount: 2500, fill: "var(--color-housing)" },
-  { category: "Transport", amount: 800, fill: "var(--color-transport)" },
-  { category: "Entertainment", amount: 600, fill: "var(--color-entertainment)" },
-  { category: "Utilities", amount: 450, fill: "var(--color-utilities)" },
-  { category: "Other", amount: 300, fill: "var(--color-other)" },
-]
+import { useFinanceStore } from "@/store/useFinanceStore"
 
-const chartConfig = {
-  amount: {
-    label: "Amount",
-  },
-  food: {
-    label: "Food",
-    color: "hsl(var(--chart-1))",
-  },
-  housing: {
-    label: "Housing",
-    color: "hsl(var(--chart-2))",
-  },
-  transport: {
-    label: "Transport",
-    color: "hsl(var(--chart-3))",
-  },
-  entertainment: {
-    label: "Entertainment",
-    color: "hsl(var(--chart-4))",
-  },
-  utilities: {
-    label: "Utilities",
-    color: "hsl(var(--chart-5))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--muted-foreground))",
-  },
-} satisfies ChartConfig
+const categoryColors: Record<string, string> = {
+  Food: "hsl(var(--chart-1))",
+  Housing: "hsl(var(--chart-2))",
+  Transport: "hsl(var(--chart-3))",
+  Entertainment: "hsl(var(--chart-4))",
+  Bills: "hsl(var(--chart-5))",
+  Other: "hsl(var(--muted-foreground))",
+  Utilities: "hsl(var(--chart-4))",
+  Salary: "hsl(var(--emerald-500))",
+}
 
 export function SpendingBreakdownChart() {
+  const transactions = useFinanceStore((s) => s.transactions)
+
+  const chartData = React.useMemo(() => {
+    const expenses = transactions.filter((t) => t.type === "expense")
+    const breakdown = expenses.reduce((acc, curr) => {
+      acc[curr.category] = (acc[curr.category] || 0) + curr.amount
+      return acc
+    }, {} as Record<string, number>)
+
+    return Object.entries(breakdown).map(([category, amount]) => ({
+      category,
+      amount,
+      fill: categoryColors[category] || categoryColors.Other,
+    }))
+  }, [transactions])
+
+  const chartConfig = React.useMemo(() => {
+    const config: ChartConfig = {
+      amount: { label: "Amount" },
+    }
+    chartData.forEach((item) => {
+      config[item.category.toLowerCase()] = {
+        label: item.category,
+        color: item.fill,
+      }
+    })
+    return config
+  }, [chartData])
+
   const totalSpending = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.amount, 0)
-  }, [])
+  }, [chartData])
+
+  if (chartData.length === 0) {
+    return (
+      <Card className="flex flex-col h-full items-center justify-center p-6 text-center text-muted-foreground">
+        <p>No expense data available for the current month.</p>
+      </Card>
+    )
+  }
 
   return (
     <Card className="flex flex-col">
@@ -97,14 +108,14 @@ export function SpendingBreakdownChart() {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-foreground text-2xl font-bold"
                         >
                           ${totalSpending.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
+                          className="fill-muted-foreground text-xs"
                         >
                           Total Spent
                         </tspan>

@@ -5,7 +5,40 @@ import { persist } from "zustand/middleware";
 export const useFinanceStore = create<FinanceState>()(
     persist(
         (set) => ({
-            transactions: [],
+            transactions: [
+                {
+                    id: "1",
+                    date: new Date().toISOString().split("T")[0],
+                    description: "Initial Salary",
+                    amount: 5000,
+                    category: "Salary",
+                    type: "income",
+                },
+                {
+                    id: "2",
+                    date: new Date().toISOString().split("T")[0],
+                    description: "Grocery Store",
+                    amount: 150,
+                    category: "Food",
+                    type: "expense",
+                },
+                {
+                    id: "3",
+                    date: new Date().toISOString().split("T")[0],
+                    description: "Monthly Rent",
+                    amount: 1200,
+                    category: "Bills",
+                    type: "expense",
+                },
+                {
+                    id: "4",
+                    date: new Date().toISOString().split("T")[0],
+                    description: "Movie Tickets",
+                    amount: 45,
+                    category: "Entertainment",
+                    type: "expense",
+                },
+            ],
             filters: {
                 search: "",
                 type: "all",
