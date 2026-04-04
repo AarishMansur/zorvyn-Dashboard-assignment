@@ -96,7 +96,7 @@ export function TransactionForm({ transaction, open, onOpenChange }: Transaction
           )}
         </SheetTrigger>
       )}
-      <SheetContent side="right" className="w-[400px] sm:w-[540px]">
+      <SheetContent side="right" className="w-full sm:max-w-md">
         <SheetHeader>
           <SheetTitle>{isEditing ? "Edit Transaction" : "Add Transaction"}</SheetTitle>
           <SheetDescription>

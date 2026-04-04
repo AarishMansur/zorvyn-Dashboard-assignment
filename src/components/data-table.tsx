@@ -203,8 +203,8 @@ export function DataTable({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between px-4 lg:px-6">
-        <div className="flex flex-1 items-center gap-2">
+      <div className="flex flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between lg:px-6">
+        <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
           <div className="relative w-full max-w-sm">
             <HugeiconsIcon
               icon={Search01Icon}
@@ -221,7 +221,7 @@ export function DataTable({
             />
           </div>
           <Select value={filters.category} onValueChange={setCategory}>
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger className="w-full sm:w-[150px]">
               <HugeiconsIcon icon={FilterIcon} strokeWidth={2} className="mr-2 size-4" />
               <SelectValue placeholder="Category" />
             </SelectTrigger>
@@ -240,7 +240,7 @@ export function DataTable({
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="flex-1 sm:flex-none">
                 <HugeiconsIcon icon={LeftToRightListBulletIcon} strokeWidth={2} data-icon="inline-start" />
                 Columns
                 <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} data-icon="inline-end" />
@@ -270,14 +270,16 @@ export function DataTable({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <TransactionForm
-            transaction={editingTransaction}
-            open={isSheetOpen}
-            onOpenChange={(open) => {
-              setIsSheetOpen(open)
-              if (!open) setEditingTransaction(null)
-            }}
-          />
+          <div className="flex-1 sm:flex-none">
+            <TransactionForm
+              transaction={editingTransaction}
+              open={isSheetOpen}
+              onOpenChange={(open) => {
+                setIsSheetOpen(open)
+                if (!open) setEditingTransaction(null)
+              }}
+            />
+          </div>
         </div>
       </div>
 
