@@ -13,7 +13,7 @@ I used React 18 + Vite as the foundation, Zustand for state (with localStorage p
 ## Getting Started
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/AarishMansur/zorvyn-Dashboard-assignment
 cd zorvyn-assignment
 pnpm install
 pnpm run dev
