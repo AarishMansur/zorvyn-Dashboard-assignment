@@ -1,64 +1,62 @@
 # Zorvyn Finance Dashboard
 
-A clean, interactive finance dashboard built to evaluate frontend development skills, component structuring, and state management.
+---
 
-## 🚀 Features
+## Overview
 
-### 1. Dashboard Overview
-- **Dynamic Summary Cards**: Real-time calculation of Total Balance, Monthly Income, Monthly Expenses, and Savings Rate.
-- **Balance Trend**: Interactive Area Chart showing Income vs. Expenses over time (7d, 30d, 90d).
-- **Spending Breakdown**: Visual Pie Chart aggregating expenses by category.
-- **Smart Insights**: Automatically identifies Top Spending category and detects Monthly Surplus/Deficit.
+Zorvyn lets users track their financial activity at a glance. You can see where your money is going, spot trends over time, and manage transactions, all from a clean, responsive interface.
 
-### 2. Transaction Management
-- **Full CRUD**: Add, Edit, and Delete transactions with ease.
-- **Advanced Filtering**: Filter by Category or Type (Income/Expense).
-- **Global Search**: Search through transaction descriptions instantly.
+I used React 18 + Vite as the foundation, Zustand for state (with localStorage persistence so nothing disappears on refresh), Tailwind + shadcn/ui for styling, and Recharts for the visualizations.
 
-### 3. Role-Based UI (RBAC)
-- **Viewer Mode**: Read-only access to the dashboard and transactions.
-- **Admin Mode**: Full access to Add, Edit, and Delete transactions.
-- **Toggle**: Easily switch between roles via the user profile in the sidebar.
+---
 
-### 4. Technical Excellence
-- **State Management**: Powered by **Zustand** with middleware for data persistence (`localStorage`).
-- **Styling**: Modern UI built with **Tailwind CSS**, featuring dark mode support and responsive layouts.
-- **Type Safety**: Fully typed with **TypeScript**.
-- **Charts**: Interactive visualizations using **Recharts**.
+## Getting Started
 
-## 🛠️ Tech Stack
-- **Framework**: React 18 + Vite
-- **State**: Zustand
-- **Styling**: Tailwind CSS + Shadcn/UI
-- **Icons**: HugeIcons
-- **Charts**: Recharts
-- **Forms/Validation**: Zod + React Hook Form (where applicable)
+```bash
+git clone <repository-url>
+cd zorvyn-assignment
+pnpm install
+pnpm run dev
+```
 
-## 📦 Setup & Installation
+That's it. The app comes pre loaded with mock data so charts and insights render immediately.
 
-1. **Clone the repository**:
-   ```bash
-   git clone <repository-url>
-   cd zorvyn-assignment
-   ```
+---
 
-2. **Install dependencies**:
-   ```bash
-   pnpm install
-   ```
+## What's Built
 
-3. **Run the development server**:
-   ```bash
-   pnpm run dev
-   ```
+**Dashboard** : Summary cards (balance, income, expenses, savings rate) update in real time as you add or edit transactions. Two charts sit below: an area chart for balance trends (switchable between 7d / 30d / 90d) and a pie chart breaking down spending by category.
 
-4. **Build for production**:
-   ```bash
-   pnpm run build
-   ```
+**Transactions** : Full CRUD with search, category filtering, and income/expense filtering. The table is the main workspace. I kept it simple and scannable rather than overloading it with controls.
 
-## 📝 Approach & Implementation
-- **Component Modularity**: Components are decoupled and reusable (e.g., `TransactionForm` handles both create and update logic).
-- **Zustand Persistence**: Utilizes `persist` middleware to ensure user data remains across sessions.
-- **Responsive Design**: Uses Tailwind's container queries (`@container`) and responsive utilities to ensure a premium feel on all devices.
-- **Mock Data**: Pre-seeded with varied transactions for immediate visualization of charts and insights.
+**Role-Based UI** : A toggle in the sidebar switches between Viewer (read-only) and Admin (add, edit, delete). No backend, it's simulated on the frontend, but the permission boundaries are real: Viewers genuinely can't trigger any write actions.
+
+**Insights** : Automatically surfaces the top spending category and flags whether the current month is in surplus or deficit. Simple, but the kind of thing that makes a dashboard feel smart.
+
+---
+
+## A Few Decisions Worth Noting
+
+**Zustand over Redux** : The state here isn't complex enough to justify Redux. Zustand gave me persistence middleware and clean selectors without the boilerplate.
+
+**shadcn/ui as a base, not a crutch** : I used it for primitives (modals, dropdowns, form elements) but styled everything to fit the dashboard's visual language. Nothing looks out-of-the-box.
+
+**TypeScript throughout** : All transaction shapes, store slices, and component props are typed. Caught a few bugs early because of it.
+
+**Mock data is intentional** : The seed data is varied enough (multiple categories, a mix of income and expense, spread across months) that all the charts and insights actually tell a story when you first open the app.
+
+---
+
+## Tech Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | React 18 + Vite |
+| State | Zustand (with persist middleware) |
+| Styling | Tailwind CSS + shadcn/ui |
+| Charts | Recharts |
+| Icons | HugeIcons |
+| Validation | Zod + React Hook Form |
+
+---
+
