@@ -13,7 +13,7 @@ import { PlusSignCircleIcon, Mail01Icon } from "@hugeicons/core-free-icons"
 const containerVariants = {
   open: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.15,
     },
   },
   closed: {
@@ -30,7 +30,7 @@ const itemVariants = {
     x: 0,
     transition: {
       type: "spring" as const,
-      stiffness: 300,
+      stiffness: 150,
       damping: 24,
     },
   },
@@ -39,7 +39,7 @@ const itemVariants = {
     x: -20,
     transition: {
       type: "spring" as const,
-      stiffness: 300,
+      stiffness: 150,
       damping: 24,
     },
   },

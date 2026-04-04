@@ -1,14 +1,14 @@
-import Dashboard from "./components/core/dashboard/dashboard"
+import Dashboard from "./components/core/dashboard"
 import { TooltipProvider } from "./components/ui/tooltip"
 
 
 function App() {
   return (
-   <>
-   <TooltipProvider>
-   <Dashboard />
-   </TooltipProvider>
-   </>
+    <>
+      <TooltipProvider>
+        <Dashboard />
+      </TooltipProvider>
+    </>
   )
 }
 

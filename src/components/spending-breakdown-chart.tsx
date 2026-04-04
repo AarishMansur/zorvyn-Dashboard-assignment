@@ -20,14 +20,14 @@ import {
 import { useFinanceStore } from "@/store/useFinanceStore"
 
 const categoryColors: Record<string, string> = {
-  Food: "hsl(var(--chart-1))",
-  Housing: "hsl(var(--chart-2))",
-  Transport: "hsl(var(--chart-3))",
-  Entertainment: "hsl(var(--chart-4))",
-  Bills: "hsl(var(--chart-5))",
-  Other: "hsl(var(--muted-foreground))",
-  Utilities: "hsl(var(--chart-4))",
-  Salary: "hsl(var(--emerald-500))",
+  Food: "var(--color-chart-1)",
+  Housing: "var(--color-chart-2)",
+  Transport: "var(--color-chart-3)",
+  Entertainment: "var(--color-chart-4)",
+  Bills: "var(--color-chart-5)",
+  Other: "var(--color-muted-foreground)",
+  Utilities: "var(--color-chart-3)",
+  Salary: "var(--color-chart-2)",
 }
 
 export function SpendingBreakdownChart() {
@@ -93,7 +93,8 @@ export function SpendingBreakdownChart() {
               dataKey="amount"
               nameKey="category"
               innerRadius={60}
-              strokeWidth={5}
+              stroke="var(--color-foreground)"
+              strokeWidth={2}
             >
               <Label
                 content={({ viewBox }) => {

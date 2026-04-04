@@ -34,23 +34,23 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(false)
 
   const insights = React.useMemo(() => {
-    // ... rest of insights logic ...
+
     const expenses = transactions.filter(t => t.type === 'expense')
-    
-    // Find top spending category
+
+
     const categoryTotals = expenses.reduce((acc, t) => {
       acc[t.category] = (acc[t.category] || 0) + t.amount
       return acc
     }, {} as Record<string, number>)
-    
+
     const topCategory = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1])[0] || ["None", 0]
 
-    // Monthly Trend (Income vs Expense)
+
     const currentMonth = "2024-06"
     const monthlyIncome = transactions
       .filter(t => t.type === 'income' && t.date.startsWith(currentMonth))
       .reduce((acc, t) => acc + t.amount, 0)
-    
+
     const monthlyExpenses = transactions
       .filter(t => t.type === 'expense' && t.date.startsWith(currentMonth))
       .reduce((acc, t) => acc + t.amount, 0)

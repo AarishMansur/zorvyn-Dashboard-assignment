@@ -55,7 +55,7 @@ export function ChartAreaInteractive() {
 
   const chartData = React.useMemo(() => {
     const dataMap: Record<string, { date: string, income: number, expense: number }> = {}
-    
+
     transactions.forEach(t => {
       if (!dataMap[t.date]) {
         dataMap[t.date] = { date: t.date, income: 0, expense: 0 }
@@ -80,7 +80,7 @@ export function ChartAreaInteractive() {
       let daysToSubtract = 90
       if (timeRange === "30d") daysToSubtract = 30
       else if (timeRange === "7d") daysToSubtract = 7
-      
+
       const startDate = new Date(referenceDate)
       startDate.setDate(startDate.getDate() - daysToSubtract)
       return date >= startDate
@@ -136,29 +136,35 @@ export function ChartAreaInteractive() {
           config={chartConfig}
           className="aspect-auto h-62.5 w-full"
         >
-          <AreaChart data={filteredData}>
+          <AreaChart
+            data={filteredData}
+            margin={{
+              left: 12,
+              right: 12,
+            }}
+          >
             <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillIncome" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={1.0}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--color-income)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--color-income)"
+                  stopOpacity={0.1}
+                />
+              </linearGradient>
+              <linearGradient id="fillExpense" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-expense)"
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-expense)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -194,16 +200,18 @@ export function ChartAreaInteractive() {
             />
             <Area
               dataKey="expense"
-              type="natural"
-              fill="url(#fillMobile)"
-              stroke="var(--color-expense)"
+              type="monotone"
+              fill="url(#fillExpense)"
+              stroke="var(--color-foreground)"
+              strokeWidth={2}
               stackId="a"
             />
             <Area
               dataKey="income"
-              type="natural"
-              fill="url(#fillDesktop)"
-              stroke="var(--color-income)"
+              type="monotone"
+              fill="url(#fillIncome)"
+              stroke="var(--color-foreground)"
+              strokeWidth={2}
               stackId="a"
             />
           </AreaChart>
