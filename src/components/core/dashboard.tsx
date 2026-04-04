@@ -28,15 +28,12 @@ import {
 import { useFinanceStore } from "@/store/useFinanceStore"
 
 
-
 export default function Dashboard() {
   const transactions = useFinanceStore((s) => s.transactions)
   const [open, setOpen] = React.useState(false)
 
   const insights = React.useMemo(() => {
-
     const expenses = transactions.filter(t => t.type === 'expense')
-
 
     const categoryTotals = expenses.reduce((acc, t) => {
       acc[t.category] = (acc[t.category] || 0) + t.amount
@@ -44,7 +41,6 @@ export default function Dashboard() {
     }, {} as Record<string, number>)
 
     const topCategory = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1])[0] || ["None", 0]
-
 
     const currentMonth = "2024-06"
     const monthlyIncome = transactions
@@ -78,10 +74,7 @@ export default function Dashboard() {
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-
               <SectionCards />
-
-
               <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-12 lg:px-6">
                 <div className="lg:col-span-8">
                   <ChartAreaInteractive />
@@ -90,8 +83,6 @@ export default function Dashboard() {
                   <SpendingBreakdownChart />
                 </div>
               </div>
-
-
               <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-3 lg:px-6">
                 <Card className="bg-primary/5 border-primary/20">
                   <CardHeader className="flex flex-row items-center gap-2 pb-2">
@@ -110,7 +101,6 @@ export default function Dashboard() {
                     </div>
                   </CardContent>
                 </Card>
-
                 <Card className={`${insights.isProfitable ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-rose-500/5 border-rose-500/20'}`}>
                   <CardHeader className="flex flex-row items-center gap-2 pb-2">
                     <HugeiconsIcon icon={ChartHistogramIcon} strokeWidth={2} className={`size-5 ${insights.isProfitable ? 'text-emerald-500' : 'text-rose-500'}`} />
@@ -128,7 +118,6 @@ export default function Dashboard() {
                     </div>
                   </CardContent>
                 </Card>
-
                 <Card className="bg-rose-500/5 border-rose-500/20">
                   <CardHeader className="flex flex-row items-center gap-2 pb-2">
                     <HugeiconsIcon icon={AlertCircleIcon} strokeWidth={2} className="size-5 text-rose-500" />
@@ -147,8 +136,6 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
               </div>
-
-
               <div className="py-2">
                 <div className="px-4 pb-4 lg:px-6">
                   <h2 className="text-lg font-semibold tracking-tight">Recent Transactions</h2>

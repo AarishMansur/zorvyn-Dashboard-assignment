@@ -10,26 +10,26 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { 
-  ChartUpIcon, 
-  Wallet02Icon, 
-  ArrowUp01Icon, 
-  ArrowDown01Icon 
+import {
+  ChartUpIcon,
+  Wallet02Icon,
+  ArrowUp01Icon,
+  ArrowDown01Icon
 } from "@hugeicons/core-free-icons"
 
 export function SectionCards() {
   const transactions = useFinanceStore((s) => s.transactions)
 
   const stats = useMemo(() => {
-    const totalBalance = transactions.reduce((acc, t) => 
+    const totalBalance = transactions.reduce((acc, t) =>
       t.type === 'income' ? acc + t.amount : acc - t.amount, 0)
-    
+
     // Get current month stats (June 2024 for mock data)
     const currentMonth = "2024-06"
     const monthlyIncome = transactions
       .filter(t => t.type === 'income' && t.date.startsWith(currentMonth))
       .reduce((acc, t) => acc + t.amount, 0)
-    
+
     const monthlyExpenses = transactions
       .filter(t => t.type === 'expense' && t.date.startsWith(currentMonth))
       .reduce((acc, t) => acc + t.amount, 0)
@@ -48,7 +48,7 @@ export function SectionCards() {
             ${stats.totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </CardTitle>
           <CardAction>
-             <HugeiconsIcon icon={Wallet02Icon} strokeWidth={2} className="size-5 text-primary" />
+            <HugeiconsIcon icon={Wallet02Icon} strokeWidth={2} className="size-5 text-primary" />
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
@@ -68,7 +68,7 @@ export function SectionCards() {
             ${stats.monthlyIncome.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </CardTitle>
           <CardAction>
-             <HugeiconsIcon icon={ArrowUp01Icon} strokeWidth={2} className="size-5 text-emerald-500" />
+            <HugeiconsIcon icon={ArrowUp01Icon} strokeWidth={2} className="size-5 text-emerald-500" />
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
@@ -87,7 +87,7 @@ export function SectionCards() {
             ${stats.monthlyExpenses.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </CardTitle>
           <CardAction>
-             <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} className="size-5 text-rose-500" />
+            <HugeiconsIcon icon={ArrowDown01Icon} strokeWidth={2} className="size-5 text-rose-500" />
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
