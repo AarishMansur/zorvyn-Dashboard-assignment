@@ -170,7 +170,7 @@ export function DataTable({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
 
-  // Sync store filters with table column filters
+
   React.useEffect(() => {
     const tableFilters: ColumnFiltersState = []
     if (filters.category !== "all") {
