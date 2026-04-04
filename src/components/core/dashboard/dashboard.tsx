@@ -31,8 +31,10 @@ import { useFinanceStore } from "@/store/useFinanceStore"
 
 export default function Dashboard() {
   const transactions = useFinanceStore((s) => s.transactions)
+  const [open, setOpen] = React.useState(false)
 
   const insights = React.useMemo(() => {
+    // ... rest of insights logic ...
     const expenses = transactions.filter(t => t.type === 'expense')
     
     // Find top spending category
@@ -60,6 +62,9 @@ export default function Dashboard() {
 
   return (
     <SidebarProvider
+      open={open}
+      onOpenChange={setOpen}
+      defaultOpen={false}
       style={
         {
           "--sidebar-width": "calc(var(--spacing) * 72)",
@@ -67,7 +72,7 @@ export default function Dashboard() {
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset" />
+      <AppSidebar open={open} variant="inset" />
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">

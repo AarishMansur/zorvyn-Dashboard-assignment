@@ -45,7 +45,7 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ open, ...props }: React.ComponentProps<typeof Sidebar> & { open: boolean }) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -57,14 +57,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <HugeiconsIcon icon={CommandIcon} strokeWidth={2} className="size-5! text-primary" />
-                <span className="text-base font-semibold">FinTrack</span>
+                <span className="text-base font-semibold">Zorvyn</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} open={open} />
       </SidebarContent>
     </Sidebar>
   )
