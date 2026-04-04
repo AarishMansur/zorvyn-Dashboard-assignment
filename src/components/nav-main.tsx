@@ -10,6 +10,8 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 import { PlusSignCircleIcon, Mail01Icon } from "@hugeicons/core-free-icons"
 
+import { useIsMobile } from "@/hooks/use-mobile"
+
 const containerVariants = {
   open: {
     transition: {
@@ -56,6 +58,8 @@ export function NavMain({
   }[]
   open: boolean
 }) {
+  const isMobile = useIsMobile()
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -81,7 +85,7 @@ export function NavMain({
         <SidebarMenu className="overflow-hidden">
           <motion.div
             initial="closed"
-            animate={open ? "open" : "closed"}
+            animate={(isMobile || open) ? "open" : "closed"}
             variants={containerVariants}
             className="flex flex-col gap-1"
           >
